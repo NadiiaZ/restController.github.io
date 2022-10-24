@@ -1,0 +1,15 @@
+
+<div th:fragment="topNav">
+  <div class="container-fluid bg-dark">
+    <div class="row pt-3 p-3">
+      <div class="col">
+        <span class="text-white font-weight-bold" th:text="${authUser.getEmail()}"></span>
+        <span class="text-white"> with roles </span>
+        <span class="text-white font-weight-bold" th:text="${authUser.getStringRoles()}"></span>
+      </div>
+      <a class="col-1 text-left text-light" th:href="@{/logout}">
+        <span class="glyphicon glyphicon-log-out">Logout</span>
+      </a>
+    </div>
+  </div>
+</div>

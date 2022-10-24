@@ -1,0 +1,27 @@
+<div th:fragment="authUserInfo">
+  <div class="row">
+    <div class="col bg-light">
+      <h4 class="p-2">About user</h4>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-11 p-3">
+      <table class="table table-striped">
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+        <tr>
+          <td th:text="${authUser.getId()}">ID</td>
+          <td th:text="${authUser.getName()}">NAME</td>
+          <td th:text="${authUser.getSurname()}">SURNAME</td>
+          <td th:text="${authUser.getEmail()}">EMAIL</td>
+          <td th:text="${authUser.getUserRoles()}">ROLES</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

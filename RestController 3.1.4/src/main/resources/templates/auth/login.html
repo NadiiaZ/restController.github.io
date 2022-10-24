@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Login Page</title>
+</head>
+  <body class="text-bg-light">
+    <div class="container-fluid">
+      <div class="row justify-content-md-center gx-5">
+          <div class="col-3 p-5 text-center">
+              <h3 class="font-weight-bold text-left">Please log in</h3>
+              <form class="mt-2" name="f" method="post" action="/process_login">
+                  <input class="form-control form-control-range" type="text" name="username" id="username" placeholder="Email address"/>
+                  <input class="form-control form-control-range mt-1" type="password" name="password" id="password" placeholder="Password" />
+                  <input type="submit" class="btn btn-primary btn-lg btn-block mt-2" value="Login"/>
+                  <br/>
+                  <div th:if="${param.error}" style="color: red">
+                    Username or password is incorrect!
+                  </div>
+              </form>
+              <a th:href="@{/auth/registration}">Registration</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
