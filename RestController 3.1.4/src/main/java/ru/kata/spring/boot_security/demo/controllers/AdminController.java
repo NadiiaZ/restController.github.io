@@ -67,7 +67,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PatchMapping ("/edit/{id}")
+    @PatchMapping ("/{id}")
     public String update(@PathVariable("id") int id,
                          @RequestParam(value = "rolesId", required = false) String rolesId,
                          @ModelAttribute("userForm") User userUpdate) {

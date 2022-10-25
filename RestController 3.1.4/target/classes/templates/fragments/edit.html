@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form th:method="PATCH" th:action="@{/admin/{id}(id = ${us.getId()})}" th:object="${us}">
+        <form th:method="PATCH" th:action="@{/admin/edit/{id}(id = ${us.getId()})}" th:object="${us}">
           <div class="modal-body">
             <div class="mb-2">
               <label class="control-label font-weight-bold" for="forId">Id</label>

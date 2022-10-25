@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UsersRepository;
 import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
+import ru.kata.spring.boot_security.demo.utils.UserNotFoundException;
 
 import java.util.*;
 
@@ -49,16 +50,19 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public User showUserById(int id) {
-        return userRepository.getById(id);
+        String message = "User with id " + id + "is not existed";
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     public void deleteUser(int id) {
+        userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         userRepository.deleteById((int)id);
     }
 
     @Override
     public void updateUser(int id, User user) {
+        userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         user.setId(id);
         userRepository.save(user);
     }
