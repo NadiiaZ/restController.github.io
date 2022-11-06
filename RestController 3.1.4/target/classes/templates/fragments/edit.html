@@ -1,5 +1,5 @@
 <div th:fragment="edit">
-  <div class="modal fade" th:id="${'editModal'+us.id}" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -8,46 +8,46 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form th:method="PATCH" th:action="@{/admin/edit/{id}(id = ${us.getId()})}" th:object="${us}">
+        <form id="editForm">
           <div class="modal-body">
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forId">Id</label>
-              <input class="form-control form-control-range" th:type="text" th:name="id" th:value="${us.getId()}" id="forId" disabled="disabled"/>
+              <label class="control-label font-weight-bold" for="id">Id</label>
+              <input class="form-control form-control-range" id="id" disabled="disabled"/>
             </div>
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forUsername">Username</label>
-              <input class="form-control form-control-range" th:type="text" id="forUsername" th:value="${us.getUsername()}" th:name="username"/>
+              <label class="control-label font-weight-bold" for="username">Username</label>
+              <input class="form-control form-control-range" id="username"/>
+              <div class="text-danger" id="usernameErr"></div>
             </div>
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forName">First name</label>
-              <input class="form-control form-control-range" th:type="text" id="forName" th:value="${us.getName()}" th:name="name"/>
+              <label class="control-label font-weight-bold" for="name">First name</label>
+              <input class="form-control form-control-range" id="name"/>
+              <div class="text-danger" id="nameErr"></div>
             </div>
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forSurname">Last name</label>
-              <input class="form-control form-control-range" th:name="surname" th:type="text" th:value="${us.getSurname()}" id="forSurname"/>
+              <label class="control-label font-weight-bold" for="surname">Last name</label>
+              <input class="form-control form-control-range" id="surname"/>
+              <div class="text-danger" id="surnameErr"></div>
             </div>
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forEmail">Email</label>
-              <input class="form-control form-control-range" th:type="text" id="forEmail" th:value="${us.getEmail()}" th:name="email"/>
+              <label class="control-label font-weight-bold" for="email">Email</label>
+              <input class="form-control form-control-range" id="email"/>
+              <div class="text-danger" id="emailErr"></div>
             </div>
             <div class="mb-2">
-              <label class="control-label font-weight-bold" for="forPassword">Password</label>
-              <input class="form-control form-control-range" type="password" id="forPassword" th:value="${us.getPassword()}" th:name="password"/>
+              <label class="control-label font-weight-bold" for="password">Password</label>
+              <input class="form-control form-control-range" type="password" id="password" />
+              <div class="text-danger" id="passErr"></div>
             </div>
             <div class="form-group form-control-range mb-2">
-              <label class="control-label font-weight-bold" for="forRole">Role</label>
-              <select multiple class="form-control" id="forRole" th:name="userRoles" required>
-                <option th:each="role : ${roles}"
-                        th:value="${role.getId()}"
-                        th:text="${role.getRoleName()}"
-                        th:selected="${us.getUserRoles()}">
-                </option>
+              <label class="control-label font-weight-bold" for="fuserRoles">Role</label>
+              <select multiple class="form-control" id="fuserRoles"  required>
               </select>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-info">Edit</button>
+            <button type="button" class="btn btn-secondary"  id="closemodal" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateUser()" class="btn btn-info">Edit</button>
           </div>
         </form>
       </div>

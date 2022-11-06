@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class UserDTO {
+    private int id;
     @NotEmpty
     @Size(min = 2, max = 30)
     private String name;
@@ -22,6 +23,16 @@ public class UserDTO {
     private String email;
     @NotEmpty
     private String password;
+    @NotEmpty
+    private Set<Role> userRoles;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -63,14 +74,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
     public Set<Role> getUserRoles() {
         return userRoles;
     }
@@ -78,8 +81,4 @@ public class UserDTO {
     public void setUserRoles(Set<Role> userRoles) {
         this.userRoles = userRoles;
     }
-
-    @NotEmpty
-    private String passwordConfirm;
-    private Set<Role> userRoles;
 }

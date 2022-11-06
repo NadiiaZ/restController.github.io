@@ -1,69 +1,25 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html>
-<head>
-
-</head>
-  <body>
-    <div th:fragment="tableAllUsers">
-      <!-- Modal -->
-      <form name="modalEdit" th:method="PATCH" th:action="@{/admin/index}" th:object="${us}">
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="mb-2">
-                  <label class="control-label font-weight-bold" for="username">Username</label>
-                  <input class="form-control form-control-range" type="text" th:field="*{username}" id="username"/>
-                  <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">ERROR</div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </form>
-      <!-- Modal -->
-
-      <div class="row">
-        <div class="col bg-light">
-          <h4 class="p-2">All users</h4>
-        </div>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-11 p-3">
-          <table class="table table-striped">
-            <tr>
-              <th>Id</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-            <tr th:each="us : ${user}">
-              <td th:text="${us.getId()}">ID</td>
-              <td th:text="${us.getName()}">NAME</td>
-              <td th:text="${us.getSurname()}">SURNAME</td>
-              <td th:text="${us.getEmail()}">EMAIL</td>
-              <td th:text="${us.getUserRoles()}">ROLES</td>
-              <td><a class="btn btn-info"  data-toggle="modal" data-target="#editModal" th:attrappend="data-target=${us}">Edit</a></td>
-              <td><a class="btn btn-danger"  data-toggle="modal" data-target="#deleteModal" th:attrappend="data-target=${us}">Delete</a></td>
-            </tr>
-          </table>
-        </div>
-      </div>
+<div th:fragment="allUsers">
+  <div class="row">
+    <div class="col bg-light">
+      <h4 class="p-2">All users</h4>
     </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-11 p-3">
+      <table class="table table-striped">
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        <tbody id="userTable">
 
-  </body>
-</html>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,31 +1,42 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.DTO.UserDTO;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
 import ru.kata.spring.boot_security.demo.servises.UserServiceImp;
 import ru.kata.spring.boot_security.demo.utils.UserErrorResponse;
 import ru.kata.spring.boot_security.demo.utils.UserNotCreatedException;
 import ru.kata.spring.boot_security.demo.utils.UserNotFoundException;
+import ru.kata.spring.boot_security.demo.utils.Util;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@CrossOrigin
+@RequestMapping("/rest/admin")
 public class AdminRestController {
     private final UserServiceImp userService;
+    private final PasswordEncoder passwordEncoder;
+    private final Util util;
 
     @Autowired
-    public AdminRestController(UserServiceImp userService) {
+    public AdminRestController(UserServiceImp userService,
+                               PasswordEncoder passwordEncoder,
+                               Util util) {
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
+        this.util = util;
     }
+
 
     @GetMapping("")
     public List<User> getAllUsers() {
@@ -34,7 +45,14 @@ public class AdminRestController {
 
     @GetMapping("/{id}")
     public UserDTO findById(@PathVariable int id) {
-        return convertToUserDTO(userService.showUserById(id));
+        return util.convertToUserDTO(userService.showUserById(id));
+    }
+
+    @GetMapping("/authUser")
+    public UserDTO authUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImp userDetails = (UserDetailsImp) auth.getPrincipal();
+        return util.convertToUserDTO(userDetails.getUser());
     }
 
     @DeleteMapping("/{id}")
@@ -43,24 +61,24 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}", consumes = {"application/xml","application/json"})
     public ResponseEntity<HttpStatus> updateUser (
             @PathVariable("id") int id,
-            @RequestBody String rolesId,
             @RequestBody @Valid UserDTO userDTOUpdate,
             BindingResult bindingResult) {
-        bindingResultErrors(bindingResult);
+        util.bindingResultErrors(bindingResult);
 
-        userService.updateUser(id, convertToUser(userDTOUpdate));
+        userDTOUpdate.setPassword(passwordEncoder.encode(userDTOUpdate.getPassword()));
+        userService.updateUser(id, util.convertToUser(userDTOUpdate));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/new")
+    @PostMapping(value = "/new", consumes = {"application/xml","application/json"})
     public ResponseEntity<HttpStatus> addUser(@RequestBody @Valid UserDTO userDTO,
                                               BindingResult bindingResult) {
-        bindingResultErrors(bindingResult);
-
-        userService.save(convertToUser(userDTO));
+        util.bindingResultErrors(bindingResult);
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userService.save(util.convertToUser(userDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -76,26 +94,5 @@ public class AdminRestController {
         String msg = e.getMessage();
         UserErrorResponse response = new UserErrorResponse(msg, System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    private User convertToUser(UserDTO userDTO) {
-        return new ModelMapper().map(userDTO, User.class);
-    }
-
-    private UserDTO convertToUserDTO(User user) {
-        return new ModelMapper().map(user, UserDTO.class);
-    }
-
-    private void bindingResultErrors (BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            StringBuilder errors = new StringBuilder();
-
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            for (FieldError error : fieldErrors) {
-                errors.append(error.getField()).append(" - ")
-                        .append(error.getDefaultMessage());
-            }
-            throw new UserNotCreatedException(errors.toString());
-        }
     }
 }
