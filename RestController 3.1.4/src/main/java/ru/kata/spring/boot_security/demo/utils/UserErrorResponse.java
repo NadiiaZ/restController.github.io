@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.utils;
 
-import java.sql.Timestamp;
 
 public class UserErrorResponse {
     private String message;

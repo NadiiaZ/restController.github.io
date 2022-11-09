@@ -22,7 +22,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     private final UsersRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserDaoImp userDao;
 
     @Autowired
     public UserServiceImp(UsersRepository userRepository,
@@ -32,7 +31,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDao = userDao;
     }
 
     @Override

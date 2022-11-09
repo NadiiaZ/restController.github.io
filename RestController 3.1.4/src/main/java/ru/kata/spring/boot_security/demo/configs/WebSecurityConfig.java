@@ -20,10 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserServiceImp userDetailsService;
 
-//    @Autowired
-//    private AuthenticationEntryPoint entryPoint;
-
-
     @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler, @Lazy UserServiceImp userDetailsService) {
         this.successUserHandler = successUserHandler;

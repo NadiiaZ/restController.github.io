@@ -68,7 +68,9 @@ public class AdminRestController {
             BindingResult bindingResult) {
         util.bindingResultErrors(bindingResult);
 
-        userDTOUpdate.setPassword(passwordEncoder.encode(userDTOUpdate.getPassword()));
+        if(!userService.showUserById(id).getPassword().equals(userDTOUpdate.getPassword()))
+            userDTOUpdate.setPassword(passwordEncoder.encode(userDTOUpdate.getPassword()));
+
         userService.updateUser(id, util.convertToUser(userDTOUpdate));
         return ResponseEntity.ok(HttpStatus.OK);
     }

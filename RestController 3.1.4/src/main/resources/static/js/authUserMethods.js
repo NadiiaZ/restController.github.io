@@ -48,7 +48,6 @@ function createTable(data) {
             <td><a class="btn btn-danger"  onclick="getUserById(${user.id}, $(this).data('target'))" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
         </tr>`;
         document.getElementById('userTable').innerHTML += markup;
-       // document.querySelector('.tr'+user.id).setAttribute('id', 'tr' + user.id);
     }
 
 }

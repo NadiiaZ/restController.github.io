@@ -32,8 +32,6 @@ public class User {
     @Column(name="password")
     @NotEmpty
     private String password;
-    @Transient
-    private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -42,14 +40,6 @@ public class User {
     )
 
     private Set<Role> userRoles;
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
     public void addNewRole(Role role) {
         if (userRoles == null) {
